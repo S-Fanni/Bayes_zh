@@ -1,9 +1,15 @@
+// Függvény definíciója a Monty Hall/vos Savant szituáció modellezésére
 var vosSavantProblem = function () {
+    // Véletlenszerűen választunk egy ajtót, amely mögött az autó van
     var Autó = categorical({ps:[1/3,1/3,1/3], vs:[1, 2, 3]})
+    // A maradék két ajtót tároljuk tömbben
     var többi = [1, 2, 3]
+    // Az autót rejtő ajtót eltávolítjuk a tömbből
     többi.splice(Autó - 1, 1);
   
+    // A Monty tippje, 50% eséllyel helyesen mutat egy kecskét
     var Tipp = categorical({ps:[1/2,1/4,1/4], vs:[Autó, többi[0], többi[1]]})
+    // Monty által mutatott ajtó 
     var Monty = (Autó == Tipp) 
                 ? ( (Autó == 1) 
                    ? categorical({ps:[1/2,1/2], vs:[2, 3]}) : 
@@ -12,6 +18,7 @@ var vosSavantProblem = function () {
                 : ( (1 !== Autó && 1 !== Tipp ) ? 1 :
                    ( (2 !== Autó && 2 !== Tipp ) ) ? 2 : 3 )
     
+
     var stratégia_maradás = (Autó == Tipp) ? 'nyer' : 'veszít'
     
     var ÚjTipp = (Autó !== Tipp) 
@@ -22,13 +29,16 @@ var vosSavantProblem = function () {
                    ( (Tipp == 2 && Monty == 3) ? 1 :
                    ( (Tipp == 3 && Monty == 1) ? 2 : 1 ) ) ) ) ) 
     
+
     var stratégia_váltás = (Autó == ÚjTipp) ? 'nyer' : 'veszít'
-    
+
     return  {
              stratégia_maradás: stratégia_maradás, 
              stratégia_váltás: stratégia_váltás } 
 }
 
+// Az eloszlás kiszámolása enumerációval
 var eloszlás = Enumerate(vosSavantProblem)
 
+// Az eloszlás megjelenítése hisztogramon
 viz.marginals(eloszlás)
