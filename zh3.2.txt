@@ -1,16 +1,24 @@
+// Függvény definíciója a változók eloszlásának kiszámolására, amelyek egyenletes valószínűséggel választanak a 0, 1, 2, 3 számok közül
 var választ = function () {
+  // Véletlenszerűen választunk egy értéket az X változóhoz
   var v1 = categorical({ps: [1/4, 1/4, 1/4, 1/4], 
                             vs: [0, 1, 2, 3]});
+  // Véletlenszerűen választunk egy értéket a számhalmazból az Y változóhoz
   var v2 = categorical({ps: [1/4, 1/4, 1/4, 1/4], 
                             vs: [0, 1, 2, 3]});
+  // Véletlenszerűen választunk egy értéket a Z változóhoz
   var v3 = categorical({ps: [1/4, 1/4, 1/4, 1/4], 
                             vs: [0, 1, 2, 3]});
-  condition(v1 + v2 + v3 === 7)
+  // Feltétel: az X, Y és Z változók összege legyen 7
+  condition(v1 + v2 + v3 === 7);
+  // A választott érték az X változóhoz
   return v1;
 }
 
+// Az eloszlás kiszámolása enumerációval
 var eloszlás = Infer({method: 'enumerate'}, választ);
 
-print(eloszlás)
+// Az eloszlás kiíratása
+print(eloszlás);
+// Az eloszlás megjelenítése 
 viz.auto(eloszlás);
-
