@@ -1,29 +1,29 @@
-// Függvény definíciója a két kártya húzására a 52 lapos francia kártyából
+// Függvény, amely kiválaszt két lapot a francia kártyapakliból
 var húzás = function () {
-  // Véletlenszerűen választunk két kártyát a 52 lapos pakliból
-  var huzas1 = randomInteger(52);
-  var huzas2 = randomInteger(52);
-  // Feltétel: a két kártya legyen különböző 
-  condition(huzas1 !== huzas2);
-  // A két húzott kártya visszaadása
-  return [huzas1, huzas2];
+  var huzas1 = randomInteger(52); // Az első lap kiválasztása
+  var huzas2 = randomInteger(52); // A második lap kiválasztása
+  condition(huzas1 !== huzas2); // Ellenőrzés: a két lap legyen különböző 
+  return [huzas1, huzas2]; // A kiválasztott lapok
 }
 
-// Függvény definíciója a kedvező kártya húzására: az egyik király, a másik nem király
+// Függvény, amely kiválasztja a kedvező eseteket
 var kedvező_húzás = function () {
-  // Véletlenszerűen választunk két kártyát a 52 lapos pakliból
-  var huzas1 = randomInteger(52);
-  var huzas2 = randomInteger(52);
-  // Feltétel: a két kártya legyen különböző, és az egyik legyen király, a másik nem király
-  condition((huzas1 !== huzas2) && ((huzas1 < 4 && huzas2 >= 4) || (huzas2 < 4 && huzas1 >= 4)));
-  // A két húzott kártya 
-  return [huzas1, huzas2];
+  var huzas1 = randomInteger(52); // Az első lap kiválasztása
+  var huzas2 = randomInteger(52); // A második lap kiválasztása
+  // Kedvező eset feltétele: az egyik lap király legyen, a másik nem király
+  condition((huzas1 < 4 && huzas2 >= 4) || (huzas2 < 4 && huzas1 >= 4));
+  return [huzas1, huzas2]; // Akedvező esetek
 }
 
-// Kedvező kártya húzásának kiszámolása enumerációval
+// Az összes lehetséges eset kiszámítása
+var összes = Enumerate(húzás);
+// Az összes lehetséges eset megjelenítése hisztogrammal
+viz.hist(összes);
+
+// A kedvező esetek kiszámítása
 var kedvező = Enumerate(kedvező_húzás);
-// Kedvező kártyák gyakoriságának megjelenítése hisztogramon
+// A kedvező esetek megjelenítése hisztogrammal
 viz.hist(kedvező);
 
-// Valószínűség kiszámítása: kedvező esetek aránya az összes esethez képest
+// A kedvező esetek valószínűségének kiszámítása és megjelenítése
 print("p = " + kedvező.supp.length / összes.supp.length);
