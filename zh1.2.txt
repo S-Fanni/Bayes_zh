@@ -1,26 +1,34 @@
-var feature1 = ['könyvtáros','tanár'];
-var feature2 = ['csendes','cserfes'];
-var operator = [' és ',' vagy '];
+// Változók definiálása a lehetséges tulajdonságok és logikai operátorok listáival
+var feature1 = ['könyvtáros', 'tanár'];
+var feature2 = ['csendes', 'cserfes'];
+var operator = [' és ', ' vagy '];
 
-
-
+// Komplex modell definiálása
 var ComplexModel2 = function() {
-    var word1 = uniformDraw(feature1)
-    var op = uniformDraw(operator)
-    var word2  = uniformDraw(feature2)
+    // Véletlenszerűen választunk egy tulajdonságot az első kategóriából
+    var word1 = uniformDraw(feature1);
+    // Véletlenszerűen választunk egy logikai operátort
+    var op = uniformDraw(operator);
+    // Véletlenszerűen választunk egy tulajdonságot a második kategóriából
+    var word2 = uniformDraw(feature2);
     
+    // Kiírjuk a generált premisszát
     print('Premissza: Panni ' + word1 + op + word2 + '.');
   
-    var word3 = uniformDraw(feature2)
+    // Véletlenszerűen választunk egy tulajdonságot a második kategóriából
+    var word3 = uniformDraw(feature2);
+    // Kiírjuk a generált konklúziót
     print('Konklúzió: Panni ' + word3 + '.'); 
 
+    // Ellenőrizzük, hogy a következtetés helyes-e
     var ervenyes = (op == ' és ' && flip(0.95) ||  op == ' vagy ' && flip(0.80))
                     ? ((word2 == word3) ? 'érvényes' : 'nem érvényes') 
-                    : 'nem érvényes'
+                    : 'nem érvényes';
 
+    // Kiírjuk az eredményt
     print(ervenyes); 
-    return ervenyes
+    return ervenyes;
 }
 
-var output = 
-  Infer({model: ComplexModel2, method:'rejection', samples: 1})
+// Inferencia elvégzése a modellen
+var output = Infer({ model: ComplexModel2, method: 'rejection', samples: 1 });
