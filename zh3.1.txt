@@ -1,23 +1,29 @@
+// Függvény definíciója a két kártya húzására a 52 lapos francia kártyából
 var húzás = function () {
-  var huzas1 = randomInteger(52)
-  var huzas2 = randomInteger(52)
-  condition(huzas1 !== huzas2)
+  // Véletlenszerűen választunk két kártyát a 52 lapos pakliból
+  var huzas1 = randomInteger(52);
+  var huzas2 = randomInteger(52);
+  // Feltétel: a két kártya legyen különböző 
+  condition(huzas1 !== huzas2);
+  // A két húzott kártya visszaadása
   return [huzas1, huzas2];
 }
 
+// Függvény definíciója a kedvező kártya húzására: az egyik király, a másik nem király
 var kedvező_húzás = function () {
-  var huzas1 = randomInteger(52)
-  var huzas2 = randomInteger(52)
-  condition(huzas1 !== huzas2 && huzas1 < 4 && huzas2 >= 4 || huzas2 < 4 && huzas1 >= 4)
-  return  [huzas1,huzas2];
+  // Véletlenszerűen választunk két kártyát a 52 lapos pakliból
+  var huzas1 = randomInteger(52);
+  var huzas2 = randomInteger(52);
+  // Feltétel: a két kártya legyen különböző, és az egyik legyen király, a másik nem király
+  condition((huzas1 !== huzas2) && ((huzas1 < 4 && huzas2 >= 4) || (huzas2 < 4 && huzas1 >= 4)));
+  // A két húzott kártya 
+  return [huzas1, huzas2];
 }
 
-//var összes = Enumerate(húzás)
-//viz.hist(összes);
+// Kedvező kártya húzásának kiszámolása enumerációval
+var kedvező = Enumerate(kedvező_húzás);
+// Kedvező kártyák gyakoriságának megjelenítése hisztogramon
+viz.hist(kedvező);
 
-var kedvező = Enumerate(kedvező_húzás)
-//print(kedvező);
-viz.hist(kedvező)
- // ennek meg összesnek az aránya??
-
-// print("p = " + kedvező.supp.length / összes.supp.length)
+// Valószínűség kiszámítása: kedvező esetek aránya az összes esethez képest
+print("p = " + kedvező.supp.length / összes.supp.length);
