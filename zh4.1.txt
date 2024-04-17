@@ -1,89 +1,76 @@
+4.1.a. feladat
+
+
+// A kártyák kiválasztása
 var kartya = function () {
-  var szin1 = randomInteger(4) + 1;
-  var figura1 = randomInteger(4) + 1;
-  var szin2 = randomInteger(4) + 1;
-  var figura2 = randomInteger(4) + 1;
-  var huzas1 = [szin1,figura1];
-  var huzas2 = [szin2,figura2];
+  // Véletlenszerűen választunk két kártyát a pakliból
+  var szin1 = randomInteger(4) + 1; // Véletlenszerűen választunk egy színt az első kártyához (1-től 4-ig)
+  var figura1 = randomInteger(4) + 1; // Véletlenszerűen választunk egy figurát az első kártyához (1-től 4-ig)
+  var szin2 = randomInteger(4) + 1; // Véletlenszerűen választunk egy színt a második kártyához (1-től 4-ig)
+  var figura2 = randomInteger(4) + 1; // Véletlenszerűen választunk egy figurát a második kártyához (1-től 4-ig)
+  
+  // Az első és a második kártya színének és figurájának eltérését ellenőrizzük, valamint azt, hogy legalább az egyik lap nem kőr vagy király
   condition(!(szin1 == szin2 && figura1 == figura2) && 
-            (!(szin1 == 1) || !(figura2 == 1)) &&
-            (!(szin2 == 1) || !(figura1 == 1))
+            (!(szin1 == 1) || !(figura2 == 1)) && // Az első kártya nem lehet kőr vagy a második kártya nem lehet király
+            (!(szin2 == 1) || !(figura1 == 1)) // A második kártya nem lehet kőr vagy az első kártya nem lehet király
              );
            
-  return huzas1;
-  };
+  // A két kiválasztott kártya
+  return [szin1, figura1];
+};
 
+// Az eloszlás kiszámítása enumerációval
 var eloszlas = Enumerate(kartya);
 
+// Az eloszlás 
 print(eloszlas);
-
 viz.auto(eloszlas);
 
 4.1.b. feladat
 
+// Az összes lehetséges eseteket szimuláló függvény
 var válasz_összes = function () {
-  var szin1 = randomInteger(4) + 1;
-  var figura1 = randomInteger(4) + 1;
-  var szin2 = randomInteger(4) + 1;
-  var figura2 = randomInteger(4) + 1;
-  var huzas1 = [szin1,figura1];
-  var huzas2 = [szin2,figura2];
+  // Véletlenszerűen választunk két kártyát a pakliból
+  var szin1 = randomInteger(4) + 1; // Véletlenszerűen választunk egy színt az első kártyához (1-től 4-ig)
+  var figura1 = randomInteger(4) + 1; // Véletlenszerűen választunk egy figurát az első kártyához (1-től 4-ig)
+  var szin2 = randomInteger(4) + 1; // Véletlenszerűen választunk egy színt a második kártyához (1-től 4-ig)
+  var figura2 = randomInteger(4) + 1; // Véletlenszerűen választunk egy figurát a második kártyához (1-től 4-ig)
+  
+  // Ellenőrizzük, hogy az első és a második kártya különbözik, valamint az első kártya treff és király, a második pedig treff és ász
   condition(!(szin1 == szin2 && figura1 == figura2) && 
             (!(szin1 == 1) || !(figura2 == 1)) &&
             (!(szin2 == 1) || !(figura1 == 1)) && szin2 == 1 && figura2 == 2);
            
-  return [huzas1, huzas2];
-  };
+  // A két kiválasztott kártya 
+  return [szin1, figura1];
+};
 
+// Az kedvező esetek
 var választ_kedvező = function () {
-  var szin1 = randomInteger(4) + 1;
-  var figura1 = randomInteger(4) + 1;
-  var szin2 = randomInteger(4) + 1;
-  var figura2 = randomInteger(4) + 1;
-  var huzas1 = [szin1,figura1];
-  var huzas2 = [szin2,figura2];
+  // Véletlenszerűen választunk két kártyát a pakliból
+  var szin1 = randomInteger(4) + 1; // Véletlenszerűen választunk egy színt az első kártyához (1-től 4-ig)
+  var figura1 = randomInteger(4) + 1; // Véletlenszerűen választunk egy figurát az első kártyához (1-től 4-ig)
+  var szin2 = randomInteger(4) + 1; // Véletlenszerűen választunk egy színt a második kártyához (1-től 4-ig)
+  var figura2 = randomInteger(4) + 1; // Véletlenszerűen választunk egy figurát a második kártyához (1-től 4-ig)
+  
+  // Ellenőrizzük, hogy az első és a második kártya különbözik, valamint az első kártya treff és király, a második pedig treff és ász, valamint az első kártya treff és ász vagy dáma
   condition(!(szin1 == szin2 && figura1 == figura2) && 
             (!(szin1 == 1) || !(figura2 == 1)) &&
             (!(szin2 == 1) || !(figura1 == 1)) && szin2 == 1 && figura2 == 2 &&
-           szin1 == 2 && (figura1 == 3 || figura1 == 4));
+            szin1 == 2 && (figura1 == 3 || figura1 == 4));
            
-  return [huzas1, huzas2];
-  };
+  // A két kiválasztott kártya
+  return [szin1, figura1];
+};
 
-var kedvező = Enumerate(választ_kedvező);
-var összes = Enumerate(válasz_összes);
+// Az kedvező eseteket és az összes esetet kiszámoló függvények 
+var kedvező = Enumerate(választ_kedvező); // Kiszámoljuk a kedvező eseteket
+var összes = Enumerate(válasz_összes); // Kiszámoljuk az összes esetet
 
-viz.auto(kedvező);
-viz.auto(összes);
+// Az eloszlások megjelenítése automata módban
+viz.auto(kedvező); // A kedvező esetek megjelenítése
+viz.auto(összes); // Az összes eset megjelenítése
 
-print("p = " + kedvező.supp.length / összes.supp.length)
+// A feltételes valószínűség kiszámítása és kiíratása
+print("p = " + kedvező.supp.length / összes.supp.length);
 
-4.2. feladat
-
-var newData = [{k: 28}, {k: 31}, {k: 44}, {k: 29}];
-
-var extendedModel = function() {
-  var data = [{k: 5}, {k: 16}, {k: 17}].concat(newData); 
-
-  var m = gaussian(32, 10); 
-  
-  map(function(d) {
-    observe(Gaussian({mu: m, sigma: 1}), d.k);
-  }, data);
-
-  var Prior = gaussian(32, 10); 
-  
-  var PredictivePosterior = gaussian(m, 1); 
-
-  return {
-    Prior: Prior, 
-    Posterior: m,
-    PosteriorPredictive: PredictivePosterior
-  };
-}
-
-var opts = {method: 'SMC', particles: 2000, rejuvSteps: 5};
-
-var output_1 = Infer(opts, extendedModel);
-
-viz.marginals(output_1);
