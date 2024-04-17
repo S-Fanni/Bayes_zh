@@ -27,7 +27,6 @@ var ComplexModel1 = function() {
         : 'nem érvényes';
     // Kiírjuk az eredményt
     print(ervenyes);
-    // Visszaadjuk az eredményt
     return ervenyes;
 }
 
