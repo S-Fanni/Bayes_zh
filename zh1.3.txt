@@ -1,31 +1,46 @@
+// Függvény definíciója a dobások generálására két kockával
 var dobás = function () {
+  // Első kocka dobása
   var kocka1 = categorical({ps: [1/6, 1/6, 1/6, 1/6, 1/6, 1/6], 
                             vs: [1, 2, 3, 4, 5, 6]});
+  // Második kocka dobása
   var kocka2 = categorical({ps: [1/6, 1/6, 1/6, 1/6, 1/6, 1/6], 
                             vs: [1, 2, 3, 4, 5, 6]});
+  // A dobások eredményei
   return [kocka1,kocka2];
 }
 
+// Függvény definíciója, a kedvező dobások generálására két kockával
 var kedvező_dobás = function () {
+  // Első kocka dobása
   var kocka1 = categorical({ps: [1/6, 1/6, 1/6, 1/6, 1/6, 1/6], 
                             vs: [1, 2, 3, 4, 5, 6]});
+  // Második kocka dobása
   var kocka2 = categorical({ps: [1/6, 1/6, 1/6, 1/6, 1/6, 1/6], 
                             vs: [1, 2, 3, 4, 5, 6]});
+  // Meghatározzuk a feltételt a kedvező dobásokra
   condition(kocka1 + kocka2 >= 4);
-  
+  // A kedvező dobások eredményei
   return  [kocka1,kocka2];
 }
 
+// Összes lehetséges dobás kiszámolása enumerációval
 var összes = Infer({method: 'enumerate'}, dobás);
 
+// Kedvező dobások kiszámolása enumerációval
 var kedvező = Infer({method: 'enumerate'}, kedvező_dobás);
 
+// Összes lehetséges dobás megjelenítése
 viz.auto(összes);
 
+// Kedvező dobások megjelenítése
 viz.auto(kedvező);
 
+// Valószínűség számolása: p = kedvező/összes
 print("p = kedvező/összes = " 
       + Math.exp((összes.score)([6,6]))/Math.exp((kedvező.score)([6,6])));
 
-print(Math.exp((összes.score)([6,6])))
-print(Math.exp((kedvező.score)([6,6])))
+// Log valószínűség kiíratása az összes lehetséges dobásokhoz
+print(Math.exp((összes.score)([6,6])));
+// Log valószínűség kiíratása a kedvező dobásokhoz
+print(Math.exp((kedvező.score)([6,6])));
