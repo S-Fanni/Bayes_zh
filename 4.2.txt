@@ -1,0 +1,37 @@
+// Hörcsögünk súlyának mérési adatai
+var newData = [{k: 28}, {k: 31}, {k: 44}, {k: 29}];
+
+// A modellezett eloszlás frissített modellje
+var extendedModel = function() {
+  // Az új adatok hozzáadása a korábbi adatokhoz
+  var data = [{k: 5}, {k: 16}, {k: 17}].concat(newData); 
+
+  // A hörcsög súlyának eloszlása
+  var m = gaussian(32, 10); 
+  
+  // Minden adatpont megfigyelése a modellben
+  map(function(d) {
+    observe(Gaussian({mu: m, sigma: 1}), d.k);
+  }, data);
+
+  // Prior eloszlás 
+  var Prior = gaussian(32, 10); 
+  
+  // A prediktív posterior eloszlás 
+  var PredictivePosterior = gaussian(m, 1); 
+
+  // Az eredmény
+  return {
+    Prior: Prior, // Prior eloszlás
+    Posterior: m, // Posterior eloszlás
+    PosteriorPredictive: PredictivePosterior // Prediktív posterior eloszlás
+  };
+}
+
+var opts = {method: 'SMC', particles: 2000, rejuvSteps: 5};
+
+// A kiterjesztett modell eredményének kiszámítása
+var output_1 = Infer(opts, extendedModel);
+
+// Az eredmények megjelenítése
+viz.marginals(output_1); // Marginális eloszlások megjelenítése
