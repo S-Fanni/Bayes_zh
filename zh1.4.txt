@@ -1,14 +1,22 @@
-var operator = ['és','vagy', 'kizáró vagy'];
+// Logikai operátorok definiálása: "és", "vagy", "kizáró vagy"
+var operator = ['és', 'vagy', 'kizáró vagy'];
 
+// Modell definiálása
 var model = function() {
-  var op = uniformDraw(operator)
-  var premise = ("Premissza: Ha ász van a kezemben, akkor király van, vagy ha nincs ász a kezemben, akkor király van a kezemben. " + "(" + op + ")")
+  // Véletlenszerűen választunk egy logikai operátort
+  var op = uniformDraw(operator);
+  // Premissza generálása a választott operátorral
+  var premise = "Premissza: Ha ász van a kezemben, akkor király van, vagy ha nincs ász a kezemben, akkor király van a kezemben. (" + op + ")";
+  // Kiíratjuk a premisszát
   print(premise);
   
-  var conclusion = op === "és"? "király van a kezemben": op === "vagy"? "": "nincs király a kezemben";
+  // A konklúzió kiszámítása az operátor alapján
+  var conclusion = op === "és" ? "király van a kezemben" : op === "vagy" ? "" : "nincs király a kezemben";
+  // Kiíratjuk a konklúziót
   print("Konklúzió: " + conclusion);
 }
 
-var output = 
-    Infer({model: model, samples: 1, method: 'rejection'});
+// Inferencia elvégzése a modellen
+var output = Infer({model: model, samples: 1, method: 'rejection'});
+// Marginalizált eloszlások megjelenítése
 viz.marginals(output);
